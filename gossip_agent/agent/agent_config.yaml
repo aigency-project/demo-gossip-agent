@@ -45,6 +45,7 @@ agent:
       
       - **generate_gossip_topic**: Generates a random, harmless gossip topic or interesting story
       - **random_fact_generator**: Provides interesting random facts to spice up conversations
+      - **create_conversation_starter**: Creates engaging conversation starters based on a topic
       
       Remember to always be entertaining, harmless, and respectful. Your gossip should be clearly fictional and fun, never mean-spirited or based on real people. Always match the user's language in your responses.
       """
@@ -95,22 +96,8 @@ agent:
 
   tools:
     - type: mcp
-      name: generate_gossip_topic
-      description: Generates a random, harmless gossip topic or interesting fictional story
-      mcp_config:
-          url: gossip-mcp-server
-          port: 8080
-          path: /mcp/
-    - type: mcp
-      name: random_fact_generator
-      description: Provides interesting random facts to enhance conversations
-      mcp_config:
-          url: gossip-mcp-server
-          port: 8080
-          path: /mcp/
-    - type: mcp
-      name: create_conversation_starter
-      description: Creates engaging conversation starters based on a topic
+      name: gossip_mcp_server
+      description: MCP server for handling gossip
       mcp_config:
           url: gossip-mcp-server
           port: 8080
