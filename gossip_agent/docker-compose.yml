@@ -1,0 +1,46 @@
+services:
+  
+  gossip-mcp-server:
+    build:
+      context: ./../containers_base/container_base_mcp
+      dockerfile: Dockerfile    
+    ports:
+      - "8081:8080"
+    volumes:
+      - ./mcp:/app/code
+    command: ["python", "/app/code/server.py"]
+    networks:
+      - gossip_network
+
+  gossip-agent:
+    depends_on:
+      - gossip-mcp-server
+    build:
+      context: ./../containers_base/container_base_agent
+      dockerfile: Dockerfile
+    ports:
+      - "8082:8080"
+    volumes:
+      - ./agent:/app/code/agent
+      - ../../../aigency:/app/code/agent/aigency
+    environment:
+      - ENVIRONMENT=dev
+    env_file:
+      - .env
+    restart: unless-stopped
+    command: >
+      sh -c "watchmedo auto-restart --directory=/app/code/agent --patterns='*.py;*.yaml;*.yml' --recursive python /app/code/agent/__main__.py"
+    networks:
+      - gossip_network
+
+  ## Build from here https://github.com/a2aproject/a2a-inspector.git
+  a2ainspector:
+    image: a2a-inspector
+    ports:
+      - "6007:8080"
+    networks:
+      - gossip_network
+
+networks:
+  gossip_network:
+    driver: bridge
