@@ -22,7 +22,6 @@ services:
       - "8082:8080"
     volumes:
       - ./agent:/app/code/agent
-      - ../../../aigency:/app/code/agent/aigency
     env_file:
       - .env
     restart: unless-stopped
