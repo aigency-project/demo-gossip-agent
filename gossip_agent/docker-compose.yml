@@ -23,8 +23,6 @@ services:
     volumes:
       - ./agent:/app/code/agent
       - ../../../aigency:/app/code/agent/aigency
-    environment:
-      - ENVIRONMENT=dev
     env_file:
       - .env
     restart: unless-stopped
